@@ -29,7 +29,7 @@ const schemes = [
     colors: [
       '#004960',
       '#2893B3',
-      '#20A7C9',
+      '#30baba',
       '#5CC0DA',
       '#7DCDE1',
       '#A9D3E1',

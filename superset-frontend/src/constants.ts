@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import Cookies from 'js-cookie';
 import {
   t,
   DEFAULT_D3_FORMAT,
@@ -24,14 +25,8 @@ import {
 
 import { BootstrapData, CommonBootstrapData } from './types/bootstrapTypes';
 
-// Injected by webpack. See webpack.config.js
-declare let INJECTED_BASE_PATH: string;
-declare let INJECTED_ASSET_BASE_URL: string;
-
-export const BASE_PATH =
-  typeof INJECTED_BASE_PATH === 'undefined' ? '' : INJECTED_BASE_PATH;
-export const ASSET_BASE_URL =
-  typeof INJECTED_ASSET_BASE_URL === 'undefined' ? '' : INJECTED_ASSET_BASE_URL;
+export const BASE_PATH = `/user/${Cookies.get('dataflow-basename')?.split('/')[2]}/proxy/8088`;
+export const ASSET_BASE_URL = `/user/${Cookies.get('dataflow-basename')?.split('/')[2]}/proxy/8088`;
 
 export const DATETIME_WITH_TIME_ZONE = 'YYYY-MM-DD HH:mm:ssZ';
 export const TIME_WITH_MS = 'HH:mm:ss.SSS';

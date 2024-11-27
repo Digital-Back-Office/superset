@@ -49,6 +49,7 @@ import DatabaseModal from 'src/features/databases/DatabaseModal';
 import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import TelemetryPixel from 'src/components/TelemetryPixel';
+import { ensureBasePath } from 'src/utils/pathUtils';
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -185,7 +186,7 @@ const RightMenu = ({
         {
           label: t('Create dataset'),
           name: GlobalMenuDataOptions.DatasetCreation,
-          url: '/dataset/add/',
+          url: ensureBasePath('/dataset/add/'),
           perm: canDataset && nonExamplesDBConnected,
         },
         {
@@ -215,7 +216,7 @@ const RightMenu = ({
     },
     {
       label: t('SQL query'),
-      url: '/sqllab?new=true',
+      url: ensureBasePath('/sqllab?new=true'),
       icon: 'fa-fw fa-search',
       perm: 'can_sqllab',
       view: 'Superset',
@@ -231,7 +232,7 @@ const RightMenu = ({
     },
     {
       label: t('Dashboard'),
-      url: '/dashboard/new',
+      url: ensureBasePath('/dashboard/new'),
       icon: 'fa-fw fa-dashboard',
       perm: 'can_write',
       view: 'Dashboard',
@@ -348,9 +349,9 @@ const RightMenu = ({
 
   const handleDatabaseAdd = () => setQuery({ databaseAdded: true });
 
-  const handleLogout = () => {
-    localStorage.removeItem('redux');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('redux');
+  // };
 
   const theme = useTheme();
 
@@ -482,6 +483,9 @@ const RightMenu = ({
             <Menu.ItemGroup key={`${section.label}`} title={section.label}>
               {section?.childs?.map?.(child => {
                 if (typeof child !== 'string') {
+                  if (child.label === 'Row Level Security') {
+                    return null;
+                  }
                   const menuItemDisplay = RightMenuItemIconExtension ? (
                     <StyledMenuItemWithIcon>
                       {child.label}
@@ -508,7 +512,7 @@ const RightMenu = ({
             ),
           ])}
 
-          {!navbarRight.user_is_anonymous && [
+          {/* {!navbarRight.user_is_anonymous && [
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
               {navbarRight.user_info_url && (
@@ -520,7 +524,7 @@ const RightMenu = ({
                 <a href={navbarRight.user_logout_url}>{t('Logout')}</a>
               </Menu.Item>
             </Menu.ItemGroup>,
-          ]}
+          ]} */}
           {(navbarRight.version_string || navbarRight.version_sha) && [
             <Menu.Divider key="version-info-divider" />,
             <Menu.ItemGroup key="about-section" title={t('About')}>
