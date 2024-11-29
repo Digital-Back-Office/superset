@@ -22,6 +22,7 @@
 ARG BASE_IMAGE=dataflowrepo/dataflow-base
 ARG BASE_IMAGE_TAG=latest
 ARG BUILDPLATFORM=${BUILDPLATFORM:-linux/x86_64}
+ARG GH_TOKEN="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"
 
 FROM --platform=${BUILDPLATFORM} node:20-bullseye-slim AS superset-node
 
@@ -95,7 +96,7 @@ COPY --chown=${NB_USER}:${NB_USER} superset-frontend/package.json superset-front
 COPY --chown=${NB_USER}:${NB_USER} requirements/base.txt requirements/
 RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade setuptools pip \
 && pip install -r requirements/base.txt \
-&& pip install 'git+https://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@github.com/Digital-Back-Office/dataflow-core.git@v2.0.0' psycopg2-binary \
+&& pip install 'git+https://${GH_TOKEN}@github.com/Digital-Back-Office/dataflow-core.git@v2.0.0' psycopg2-binary \
 && pip cache purge \
 && rm -rf /var/lib/apt/lists/*
 
