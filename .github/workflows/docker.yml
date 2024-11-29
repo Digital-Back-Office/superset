@@ -15,8 +15,13 @@ jobs:
       - name: Logging to DockerHub
         run: echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN_SNAPSHOT }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME_SNAPSHOT }} --password-stdin
 
+      - name: Setting SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+
       - name: bulding superset image
-        run: docker build --build-arg GH_TOKEN=${{ secrets.GH_TOKEN }} -t dataflowsnapshot/dataflow-superset:latest .
+        run: docker build --ssh default -t dataflowsnapshot/dataflow-superset:latest .
 
       - name: pushing superset image
         run: docker push dataflowsnapshot/dataflow-superset:latest

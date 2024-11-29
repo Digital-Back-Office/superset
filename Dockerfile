@@ -94,9 +94,11 @@ RUN mkdir -p ${PYTHONPATH} ${SUPERSET_HOME} superset/static requirements superse
 COPY --chown=${NB_USER}:${NB_USER} pyproject.toml setup.py MANIFEST.in superset_config.py ./
 COPY --chown=${NB_USER}:${NB_USER} superset-frontend/package.json superset-frontend/
 COPY --chown=${NB_USER}:${NB_USER} requirements/base.txt requirements/
-RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade setuptools pip \
+RUN --mount=type=cache,target=/root/.cache/pip \
+--mount=type=ssh  pip install --upgrade setuptools pip \
 && pip install -r requirements/base.txt \
-&& pip install 'git+https://${GH_TOKEN}@github.com/Digital-Back-Office/dataflow-core.git@v2.0.0' psycopg2-binary \
+&& mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts \
+&& pip install 'git+ssh://git@github.com/Digital-Back-Office/dataflow-core.git@v2.0.0' psycopg2-binary \
 && pip cache purge \
 && rm -rf /var/lib/apt/lists/*
 
