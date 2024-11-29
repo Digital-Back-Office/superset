@@ -22,7 +22,7 @@
 ARG BASE_IMAGE=dataflowrepo/dataflow-base
 ARG BASE_IMAGE_TAG=latest
 ARG BUILDPLATFORM=${BUILDPLATFORM:-linux/x86_64}
-ARG GH_TOKEN="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"
+ARG GH_TOKEN=${GH_TOKEN}
 
 FROM --platform=${BUILDPLATFORM} node:20-bullseye-slim AS superset-node
 
