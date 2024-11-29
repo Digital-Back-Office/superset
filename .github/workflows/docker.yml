@@ -16,9 +16,7 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN_SNAPSHOT }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME_SNAPSHOT }} --password-stdin
 
       - name: bulding superset image
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: docker build -t dataflowsnapshot/dataflow-superset:latest .
+        run: docker build --build-arg GH_TOKEN=${{ secrets.GH_TOKEN }} -t dataflowsnapshot/dataflow-superset:latest .
 
       - name: pushing superset image
         run: docker push dataflowsnapshot/dataflow-superset:latest
