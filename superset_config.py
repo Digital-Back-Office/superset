@@ -1,6 +1,7 @@
 from authenticator.dataflowsupersetauthenticator import CustomSecurityManager
 from flask_appbuilder.security.manager import AUTH_DB
 import os
+import configparser
 
 BASE_PATH=f"/user/{os.environ.get('HOSTNAME').split('-')[1]}/proxy/8088"
 AUTH_USER_REGISTRATION = True
@@ -23,6 +24,25 @@ AUTH_ROLE_PUBLIC='Public'
 PUBLIC_ROLE_LIKE='Gamma'
 SUPERSET_LOAD_EXAMPLES="yes"
 PREFERRED_URL_SCHEME = 'https'
+
+config_parser = configparser.ConfigParser()
+ui_config = config_parser.read('/dataflow/app/config/dataflow.cfg')
+REDIS_URL = config_parser.get('redis', 'redis_url')
+
+
+CACHE_CONFIG = {
+    'CACHE_TYPE': 'redis',
+    'CACHE_DEFAULT_TIMEOUT': 86400,
+    'CACHE_KEY_PREFIX': 'superset_results',
+    'CACHE_REDIS_URL': f"{REDIS_URL}"
+}
+
+class CeleryConfig:  # pylint: disable=too-few-public-methods
+    broker_url = f"{REDIS_URL}"
+    result_backend = f"{REDIS_URL}"
+
+CELERY_CONFIG: type[CeleryConfig] = CeleryConfig
+
 THEME_OVERRIDES = {
     'borderRadius': 4,
     'colors': {
