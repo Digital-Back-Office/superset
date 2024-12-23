@@ -9,6 +9,7 @@ SECRET_KEY = '4sGcJSyy/+znLLJBKu57VxxaKL5PxVL84uECDQbj4Tt+/M1sfybyHY09'
 AUTH_TYPE = AUTH_DB
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 
+SESSION_COOKIE_NAME = 'superset_session'
 WTF_CSRF_ENABLED = False
 HTTP_HEADERS={'X-Frame-Options':'ALLOWALL'}
 # Use all X-Forwarded headers when ENABLE_PROXY_FIX is True.
